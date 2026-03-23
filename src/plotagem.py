@@ -45,6 +45,10 @@ def plotar_xrd(
 
     if numero_cifs == 1:
         eixos = [eixos]
+    numero_cifs = len(padroes_cif)
+
+    if numero_cifs == 0:
+        raise ValueError("Nenhum padrão CIF foi fornecido.")        
 
     for eixo, (nome_arquivo, (tt, intensidade)), cor in zip(
         eixos,
