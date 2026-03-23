@@ -22,7 +22,8 @@ dois_theta_exp, intensidade_exp = carregar_experimental(arquivo_exp)
 intensidade_norm_exp = normalizar_intensidade(intensidade_exp)
 
 # definir padrões CIF (exemplo)
-# padroes_cif = {...}
+if not padroes_cif:
+    raise ValueError("Defina o dicionário 'padroes_cif' com os padrões CIF.")
 
 # gerar gráfico
 plotar_xrd(
