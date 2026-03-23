@@ -11,9 +11,11 @@ Fluxo:
 from src.leitura import carregar_experimental
 from src.processamento import normalizar_intensidade
 from src.plotagem import plotar_xrd
+import os
+from src.cif import simular_padrao_drx
 
 # caminho do arquivo experimental
-arquivo_exp = "dados/experimental/exp.txt"
+arquivo_exp = "data/SrTiO3-exemplo.TXT"
 
 # carregar dados
 dois_theta_exp, intensidade_exp = carregar_experimental(arquivo_exp)
@@ -21,9 +23,21 @@ dois_theta_exp, intensidade_exp = carregar_experimental(arquivo_exp)
 # normalizar
 intensidade_norm_exp = normalizar_intensidade(intensidade_exp)
 
-# definir padrões CIF (exemplo)
-if not padroes_cif:
-    raise ValueError("Defina o dicionário 'padroes_cif' com os padrões CIF.")
+#Colocar os nomes dos cifs a serem testados.
+arquivos_selecionados = [
+    "CIF-SrTiO3.cif",
+   
+]
+
+padroes_cif = {}
+
+
+for arquivo in arquivos_selecionados:
+    caminho = os.path.join("data/cifs", arquivo)
+
+    dois_theta, intensidade = simular_padrao_drx(caminho)
+
+    padroes_cif[arquivo] = (dois_theta, intensidade)
 
 # gerar gráfico
 plotar_xrd(
@@ -31,5 +45,5 @@ plotar_xrd(
     intensidade_norm_exp,
     padroes_cif,
     arquivo_exp,
-    "saidas/pdf/resultado.pdf"
+    "saidas/resultado.png"
 )
